@@ -1,0 +1,31 @@
+Raspberry pi USB serial gadget for Niles 
+
+Configure the raspberry pi for local login (local monitor, keyboard, and mouse)
+Install raspbian buster lite on a micro sd card
+Insert the card into the raspberry pi zero
+Log in using pi as the account and raspberry as the password
+Enter the following command:  sudo raspi-config
+Go to Interfacing Options
+Navigate to and select SSH
+Choose Yes
+Select OK
+Choose Finish
+Change directory to /boot
+Open the config.txt file with the following command:  sudo nano config.txt
+Add the following line  at the end of the file:  dtoverlay=dwc2
+Save and exit the file.
+Open the cmdline.txt file with the following command:  sudo nano cmdline.txt
+Add a space and then the following text after  “rootwait” :   modules-load=dwc2,g_serial
+At the command line, enter the following command:  sudo systemctl enable getty@ttyGS0.service
+     Note that the 0 in GS0 is a zero not a capital “O”
+Copy the serial_c file to the /home/pi directory.
+Copy the serial_c.service file to the /etc/systemd/system directory
+At the command line, enter the following command:  sudo systemctl enable serial_c.service
+Verify that it is active by entering the following command:  sudo systemctl status serial_c.service
+Shut down the pi zero with the following command:  shutdown –h now
+Disconnect the local display, keyboard, and mouse.
+Connect the pi zero to a computer using a USB to Micro USB data cable (not a charging cable).  Make sure to plug it into the USB connector on the pi zero and not the power connector (they are labeled.)
+Verify that the computer recognizes the pi zero and assigns it a serial port.
+Set the baud rate on the assigned serial port on the computer to 38400.  Note that the Niles Intellifile 3 software uses that baud rate.
+Open the Intellifile 3 software 
+
