@@ -1,3 +1,11 @@
+/*******************************************************************
+*  This program sends a control string to the Niles Intellifile 3  *
+*  program to enable access to the update portion of the software. *
+*  Compile it using the following command:                         *
+*       gcc serial_c.c -o serial_c                                 *
+*                                                                  *
+*******************************************************************/
+
 #define TERMINAL    "/dev/ttyGS0"
 
 #include <errno.h>
