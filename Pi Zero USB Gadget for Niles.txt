@@ -1,7 +1,7 @@
 Raspberry pi USB serial gadget for Niles 
 
 Install raspbian buster lite on a micro sd card
-Download the serial_c and serial_c.servicce files from this repository on github
+Download the serial_c and serial_c.service files from this repository on github
 Copy the serial_c file to the /home/pi directory
 Copy the serial_c.service file to the /etc/systemd/system directory
 Configure the raspberry pi hardware for local login (local monitor, keyboard, and mouse)
