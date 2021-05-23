@@ -1,31 +1,59 @@
 Raspberry pi USB serial gadget for Niles 
 
-Install raspbian buster lite on a micro sd card
-Download the serial_c and serial_c.service files from this repository on github
-Configure the raspberry pi hardware for local login (local monitor, keyboard, and mouse)
-Insert the card into the raspberry pi zero and apply power
+This document is under construction and will probably change at least weekly.  
+
+What you'll need to complete this project:
+
+  Raspberry pi Zero W
+  Micro SD card
+  Power supply with Micro USB connector 
+  HDMI monitor
+  HDMI to HDMI Mini adapter cable (the pi zero uses an HDMI mini connector, not a micro connector)
+  USB Keyboard/mouse
+  Computer running windows that will be used to create the raspbian lite image on the micro sd card
+       Note:  This project requires the use of rpi-imager and filezilla.  Both packages will need to 
+       be installed on the Windows machine prior to the raspian lite build
+  USB to Micro USB data cable (make sure you're using a data cable not a charging cable)
+  SD or micro SD to USB adapter (if the pc doesn't already have a built-in sd card reader)
+  Network access for both the PC and pi Zero W (Note that the pi zero w needs wireless access)
+  
+Using the Windows PC, install raspbian buster lite on a micro sd card
+Download the serial_c and serial_c.service files from this repository on github 
+Configure the raspberry pi hardware for local login (power supply, local monitor, keyboard, and mouse)
+Insert the card into the raspberry pi zero w and apply power
 Log in using pi as the account and raspberry as the password
 Enter the following command:  sudo raspi-config
 Go to Interfacing Options
 Navigate to and select SSH
 Choose Yes
 Select OK
-Choose Finish
-Open filezilla and connect to the pi zero using raspberry.local
+Enable Wireless
+Disable the serial terminal
+Select Finish
+Reboot the pi zero w.
+On the Windows PC, open filezilla and connect to the pi zero using raspberry.local
 Copy the serial_c file to the /home/pi directory
 Copy the serial_c.service file to the /etc/systemd/system directory
-Change directory on the pi zero to /boot
+Log into the pi zero w and change directory to /boot
 Open the config.txt file with the following command:  sudo nano config.txt
-Add the following line  at the end of the file:  dtoverlay=dwc2
+Add the following line at the end of the file:  dtoverlay=dwc2
 Save and exit the file.
 Open the cmdline.txt file with the following command:  sudo nano cmdline.txt
 Add a space and then the following text after  “rootwait” :   modules-load=dwc2,g_serial
+Compile the serial_c.c program using the following command:  sudo gcc serial_c.c -o serial_c
+At the command line, enter the following command:  sudo chmod 755 serial_c
 At the command line, enter the following command:  sudo systemctl enable serial_c.service
 Verify that it is active by entering the following command:  sudo systemctl status serial_c.service
 Shut down the pi zero with the following command:  shutdown –h now
-Disconnect the local display, keyboard, and mouse.
-Connect the pi zero to a computer using a USB to Micro USB data cable (not a charging cable).  Make sure to plug it into the USB connector on the pi zero and not the power connector (they are labeled.)
+  Note that this is a point of no return.  Once you have shutdown, a reboot will bring the USB port
+  on the pi zero w up as a gadget port (like a USB keyboard or printer) and your keyboard and 
+  mouse will no longer work.  Make sure that everything is good before you shut down, and remember, 
+  you can always start from the beginning again if it isn't.
+Disconnect the power supply, local display, keyboard, and mouse.
+Connect the pi zero to the Windows computer using a USB to Micro USB data cable (not a charging cable).  Make sure to plug it into the USB 
+  connector on the pi zero and not the power connector (they are labeled.)
 Verify that the computer recognizes the pi zero and assigns it a serial port.
-Set the baud rate on the assigned serial port on the computer to 38400.  Note that the Niles Intellifile 3 software uses that baud rate.
-Open the Intellifile 3 software 
+  You can do that by going to Device Manager->Ports (COM & LPT) and looking for USB Serial Device (COMx) where x is usually 4.
+Click on the serial port to select it, go to Port Settings, and set the baud rate to 38400.  Note that the Niles Intellifile 3 software uses that baud rate.
+Open the Intellifile 3 software and verify that you now have authorization to use it.
 
